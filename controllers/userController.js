@@ -118,6 +118,8 @@ exports.login_user_post = (req, res, next) => {
             return res.status(401).json(info)
         }
 
+        console.log(user)
+
         req.logIn(user, function (err)
         {
             if (err)
