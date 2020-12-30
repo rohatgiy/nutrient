@@ -7,14 +7,15 @@ class NotFound extends Component
     {
         super(props)
     }
-    
+
     render()
     {
         return(
             <div className="offset-md-4 col-md-4">
                 <br />
                 <h5>Page not found.</h5>
-                <button onClick={() => {this.props.history.push("/")}}>Return home?</button>
+                <br />
+                <button className="btn btn-primary" onClick={() => {this.props.history.push("/")}}>Return home?</button>
             </div>
         )
     }
