@@ -14,6 +14,7 @@ import Register from "./Register"
 import Login from "./Login"
 import Account from "./Account"
 import logo from "../nutrient_tracker.png"
+import NotFound from "./NotFound"
 
 class Navbar extends Component
 {
@@ -111,6 +112,7 @@ class Navbar extends Component
           <Route exact path="/register" component={Register}/>
           <Route exact path="/login" component={Login}/>
           <Route exact path="/" component={Home}/>
+          <Route path="/" component={NotFound}/>
         </Switch>
         </Router>
     )

@@ -1,0 +1,23 @@
+import React, {Component} from "react"
+import {withRouter} from "react-router-dom"
+
+class NotFound extends Component
+{
+    constructor(props)
+    {
+        super(props)
+    }
+    
+    render()
+    {
+        return(
+            <div className="offset-md-4 col-md-4">
+                <br />
+                <h5>Page not found.</h5>
+                <button onClick={() => {this.props.history.push("/")}}>Return home?</button>
+            </div>
+        )
+    }
+}
+
+export default withRouter(NotFound)
