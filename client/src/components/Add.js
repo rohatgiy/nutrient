@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import Search from "./Search"
 import { foodData } from "../foods_data"
 import {withRouter} from "react-router-dom"
-import {LoginContext} from "./LoginContext"
+import {AuthContext} from "./AuthContext"
 
 class Add extends Component
 {
@@ -23,12 +23,31 @@ class Add extends Component
 
     componentDidMount()
     {
-        const {loggedIn} = this.context
-
-        if (!loggedIn)
+        const {setIsAuthenticated} = this.context
+        var isAuthenticated = false
+        fetch("/api/user/",
         {
-            this.props.history.push("/")
-        }
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.keys(data).length === 0 && data.constructor === Object)
+            {
+                isAuthenticated = false
+            }
+            else
+            {
+                isAuthenticated = true
+            }
+
+            setIsAuthenticated(isAuthenticated)
+
+            if (!isAuthenticated)
+            {
+                this.props.history.push("/")
+            }
+        }) 
     }
 
     render()
@@ -46,5 +65,5 @@ class Add extends Component
     }
 }
 
-Add.contextType = LoginContext
+Add.contextType = AuthContext
 export default withRouter(Add)

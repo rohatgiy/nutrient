@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import { withRouter } from "react-router-dom"
-import {LoginContext} from "./LoginContext"
+import {AuthContext} from "./AuthContext"
 
 class Account extends Component
 {
@@ -20,16 +20,6 @@ class Account extends Component
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         
-    }
-
-    componentDidMount()
-    {
-        const {loggedIn} = this.context
-
-        if (!loggedIn)
-        {
-            this.props.history.push("/")
-        }
     }
 
     handleSubmit(e) {
@@ -52,9 +42,38 @@ class Account extends Component
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    componentDidMount()
+    {
+        const {setIsAuthenticated} = this.context
+
+        var isAuthenticated = false
+        fetch("/api/user/",
+        {
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.keys(data).length === 0 && data.constructor === Object)
+            {
+                isAuthenticated = false
+            }
+            else
+            {
+                isAuthenticated = true
+            }
+
+            setIsAuthenticated(isAuthenticated)
+
+            if (!isAuthenticated)
+            {
+                this.props.history.push("/")
+            }
+        }) 
+    }
+
     render ()
     {
-        
         return (
             <div>
                 <br/>
@@ -102,5 +121,5 @@ class Account extends Component
     }
 }
 
-Account.contextType = LoginContext
+Account.contextType = AuthContext
 export default withRouter(Account)

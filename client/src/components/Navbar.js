@@ -5,7 +5,8 @@ import {
     Route,
     Link,
 } from "react-router-dom"
-import {LoginContext} from "./LoginContext"
+//import {LoginContext} from "./LoginContext"
+import {AuthContext} from "./AuthContext"
 import History from "./History"
 import Home from "./Home"
 import Add from "./Add"
@@ -26,19 +27,24 @@ class Navbar extends Component
 
     logoutHandler(e)
     {
-      const {toggleLogout} = this.context
-      toggleLogout()
+      fetch('/api/logout/',
+      {
+        method: "POST",
+        credentials: "include"
+      })
+      const {setIsAuthenticated} = this.context
+      setIsAuthenticated(false)
     }
 
     render() {
       return (
         <Router>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <LoginContext.Consumer>
+            <AuthContext.Consumer>
               {
                 context => 
                 {
-                    return context.loggedIn ? 
+                    return context.isAuthenticated ? 
                     (<Link className="navbar-brand" to="/today">
                         <img src={logo} alt="logo" height="22px" style={{padding: 0, marginRight: "5px", verticalAlign: "text-top"}}/>
                         nütrient
@@ -50,17 +56,17 @@ class Navbar extends Component
                 }
               }
               
-            </LoginContext.Consumer>
+            </AuthContext.Consumer>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
 
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <LoginContext.Consumer>
+              <AuthContext.Consumer>
                 {
                   context => 
                   {
-                    return context.loggedIn ? (
+                    return context.isAuthenticated ? (
                       <ul className="navbar-nav mr-auto">
                         <li className="nav-item">
                           <Link className="nav-link" to="/add">Add</Link>
@@ -84,11 +90,11 @@ class Navbar extends Component
                     )
                   }
                 }
-                </LoginContext.Consumer> 
-                <LoginContext.Consumer>
+                </AuthContext.Consumer> 
+                <AuthContext.Consumer>
                   {
                     context => {
-                      return context.loggedIn ? (
+                      return context.isAuthenticated ? (
                         <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
                           <Link className="nav-link" to="/edit">Account</Link>
@@ -100,7 +106,7 @@ class Navbar extends Component
                       ) : null
                     }
                   }
-                </LoginContext.Consumer>
+                </AuthContext.Consumer>
             </div>
         </nav>
 
@@ -119,5 +125,5 @@ class Navbar extends Component
                 }
 } 
 
-Navbar.contextType = LoginContext
+Navbar.contextType = AuthContext
 export default Navbar

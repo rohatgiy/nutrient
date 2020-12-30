@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {withRouter} from "react-router-dom"
-import { LoginContext } from "./LoginContext"
+import {AuthContext} from "./AuthContext"
 
 class Login extends Component
 {
@@ -10,7 +10,8 @@ class Login extends Component
         this.state = 
         {
             username: "",
-            password: ""
+            password: "",
+            loading: true
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -18,12 +19,7 @@ class Login extends Component
 
     componentDidMount()
     {
-        const {loggedIn} = this.context
-
-        if (loggedIn)
-        {
-            this.props.history.push("/")
-        }
+        
     }
 
     handleChange(e)
@@ -34,7 +30,7 @@ class Login extends Component
     handleSubmit(e)
     {
         e.preventDefault();
-        const {toggleLogin} = this.context
+        const {setIsAuthenticated} = this.context
         
         const data = this.state;
         const opts = {
@@ -55,7 +51,7 @@ class Login extends Component
             }
             else
             {
-                toggleLogin()
+                setIsAuthenticated(true)
                 this.props.history.push("/today")
             } 
     })
@@ -64,7 +60,34 @@ class Login extends Component
 
     render()
     {
-        return(
+        const {setIsAuthenticated} = this.context
+        var isAuthenticated = false
+        fetch("/api/user/",
+        {
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.keys(data).length === 0 && data.constructor === Object)
+            {
+                isAuthenticated = false
+            }
+            else
+            {
+                isAuthenticated = true
+            }
+
+            setIsAuthenticated(isAuthenticated)
+
+            if (isAuthenticated)
+            {
+                this.props.history.push("/today")
+            }
+            this.setState({loading: false})
+        }) 
+
+        return !this.state.loading ? (
             <div id="content">
                <br/>
                <div className="col-md-4 offset-md-4">
@@ -90,9 +113,14 @@ class Login extends Component
                     </div>
                 </form>
             </div>
+        ) : (
+            <div className="offset-md-2 col-md-4">
+                <br />
+                <h5>Loading...</h5>
+            </div>
         )
     }
 }
 
-Login.contextType = LoginContext
+Login.contextType = AuthContext
 export default withRouter(Login)

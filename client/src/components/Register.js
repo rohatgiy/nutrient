@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {withRouter} from "react-router-dom"
+import {AuthContext} from "./AuthContext"
 
 class Register extends Component {
 
@@ -8,7 +9,8 @@ class Register extends Component {
         super(props)
         this.state = {
             age: "11-14",
-            gender: "male"
+            gender: "male",
+            loading: true
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -47,7 +49,34 @@ class Register extends Component {
 
     render ()
     {
-        return (
+        const {setIsAuthenticated} = this.context
+        var isAuthenticated = false
+        fetch("/api/user/",
+        {
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.keys(data).length === 0 && data.constructor === Object)
+            {
+                isAuthenticated = false
+            }
+            else
+            {
+                isAuthenticated = true
+            }
+
+            setIsAuthenticated(isAuthenticated)
+
+            if (isAuthenticated)
+            {
+                this.props.history.push("/today")
+            }
+            this.setState({loading: false})
+        }) 
+        
+        return !this.state.loading ? (
            <div id="content">
                <br/>
                <div className="col-md-4 offset-md-4">
@@ -97,8 +126,14 @@ class Register extends Component {
                     </div>
                 </form>
             </div>
+        ) : (
+            <div className="offset-md-2 col-md-4">
+                <br />
+                <h5>Loading...</h5>
+            </div>
         )
     }
 }
 
+Register.contextType = AuthContext
 export default withRouter(Register)

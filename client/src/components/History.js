@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {LoginContext} from "./LoginContext"
+import {AuthContext} from "./AuthContext"
 import {withRouter} from "react-router-dom"
 import Entry from "./Entry"
 
@@ -119,12 +119,31 @@ class History extends Component {
 
     componentDidMount()
     {
-        const {loggedIn} = this.context
-
-        if (!loggedIn)
+        const {setIsAuthenticated} = this.context
+        var isAuthenticated = false
+        fetch("/api/user/",
         {
-            this.props.history.push("/")
-        }
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.keys(data).length === 0 && data.constructor === Object)
+            {
+                isAuthenticated = false
+            }
+            else
+            {
+                isAuthenticated = true
+            }
+
+            setIsAuthenticated(isAuthenticated)
+
+            if (!isAuthenticated)
+            {
+                this.props.history.push("/")
+            }
+        }) 
     }
 
     render()
@@ -171,5 +190,5 @@ class History extends Component {
     }
 }
 
-History.contextType = LoginContext
+History.contextType = AuthContext
 export default withRouter(History)

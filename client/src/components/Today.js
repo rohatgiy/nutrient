@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {LoginContext} from "./LoginContext"
+import {AuthContext} from "./AuthContext"
 import {withRouter} from "react-router-dom"
 import Entry from "./Entry"
 
@@ -92,19 +92,38 @@ class Dashboard extends Component
         })
     }
 
-    componentDidMount()
-    {
-        const {loggedIn} = this.context
-
-        if (!loggedIn)
-        {
-            this.props.history.push("/")
-        }
-    }
-
     rerenderParentCallback()
     {
         this.dashboardFetch()
+    }
+
+    componentDidMount()
+    {
+        const {setIsAuthenticated} = this.context
+        var isAuthenticated = false
+        fetch("/api/user/",
+        {
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.keys(data).length === 0 && data.constructor === Object)
+            {
+                isAuthenticated = false
+            }
+            else
+            {
+                isAuthenticated = true
+            }
+
+            setIsAuthenticated(isAuthenticated)
+
+            if (!isAuthenticated)
+            {
+                this.props.history.push("/")
+            }
+        }) 
     }
 
     render ()
@@ -136,5 +155,5 @@ class Dashboard extends Component
     }
 }
 
-Dashboard.contextType = LoginContext
+Dashboard.contextType = AuthContext
 export default withRouter(Dashboard)

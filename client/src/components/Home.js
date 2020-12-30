@@ -1,41 +1,48 @@
 import React, {Component} from "react"
-import { LoginContext } from "./LoginContext";
 import {withRouter} from "react-router-dom"
 import mockup from "../mockup.png"
-
+import {AuthContext} from "./AuthContext"
 
 class Home extends Component
 {
     constructor(props)
     {
         super();
-        this.state = {}
-        fetch("/api/user", {
-            method: "POST",
-            credentials: "include"
-        })
-        .then(response => response.json())
-        .then(data => this.setState(data))
-    }
-
-    componentDidMount()
-    {
-        const {loggedIn} = this.context
-
-        if (!loggedIn)
-        {
-            this.setState({})
-            this.props.history.push("/")
-        }
-        else
-        {
-            this.props.history.push("/today")
+        this.state = {
+            loading: true
         }
     }
 
     render()
     {
-        return (
+        const {setIsAuthenticated} = this.context
+        var isAuthenticated = false
+        fetch("/api/user/",
+        {
+            method: "POST",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (Object.keys(data).length === 0 && data.constructor === Object)
+            {
+                isAuthenticated = false
+            }
+            else
+            {
+                isAuthenticated = true
+            }
+
+            setIsAuthenticated(isAuthenticated)
+
+            if (isAuthenticated)
+            {
+                this.props.history.push("/today")
+            }
+            this.setState({loading: false})
+        }) 
+
+        return !this.state.loading ? (
             <div className="row align-items-center">
                 <div className="col-md-6" style={{padding: "10vh 0 0 10vw"}}>
                     <h1 style={{fontSize: "50px", fontWeight: "800"}}>Keep track of what matters.</h1>
@@ -56,9 +63,14 @@ class Home extends Component
                 </div>
                 
             </div>
+        ) : (
+            <div className="offset-md-2 col-md-4">
+                <br />
+                <h5>Loading...</h5>
+            </div>
         )
     }
 }
 
-Home.contextType = LoginContext
+Home.contextType = AuthContext
 export default withRouter(Home);
