@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
+var path = require('path');
 
 const cors = require('cors');
 
