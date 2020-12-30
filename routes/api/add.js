@@ -180,7 +180,7 @@ router.post('/', getNutrients, (req, res, next) => {
                     food_codes: [res.locals.food_obj.food_code],
                     conversion_factors: [res.locals.food_obj.conversion_factor],
                     food_names: [res.locals.food_obj.food_name+ ', '+ res.locals.food_obj.serving_size],
-                    nutrients: nutrients
+                    nutrients: nutrients,
                 }
             );
             req.user.entries.push(entry);

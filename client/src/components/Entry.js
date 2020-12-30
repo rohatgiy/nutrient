@@ -23,11 +23,12 @@ class Entry extends Component
 
     render ()
     {
+        var date = this.props.date
         return this.props.delete ? (
             !this.props.empty ? (
                 <div className="card offset-md-2 col-md-8" style={{marginBottom: "10px", marginTop: "10px"}}>
                     <div className="card-body">
-                        <h4 className="card-title">{this.props.date.toString().substring(0, 10)}</h4>
+                        <h4 className="card-title">{new Date(date).toLocaleString("default", {month: "long"}) + " " + new Date(date).getDate()}</h4>
                         <div className="row">
                             <div className="col-4">
                                 <div>
@@ -75,7 +76,7 @@ class Entry extends Component
         )) : ( !this.props.empty ? (
             <div className="card offset-md-2 col-md-8" style={{marginBottom: "10px", marginTop: "10px"}}>
                 <div className="card-body">
-                    <h4 className="card-title">{this.props.date.toString().substring(0, 10)}</h4>
+                    <h4 className="card-title">{new Date(date).toLocaleString("default", {month: "long"}) + " " + new Date(date).getDate()+ ", " +  new Date(date).getFullYear()}</h4>
                     <div className="row">
                         <div className="col-4">
                             <div>
