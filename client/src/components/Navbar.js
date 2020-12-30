@@ -104,13 +104,13 @@ class Navbar extends Component
         </nav>
 
         <Switch>
-          <Route path="/history" component={History}/>
-          <Route path="/edit" component={Account}/>
-          <Route path="/add" component={Add}/>
-          <Route path="/today" component={Today}/>
-          <Route path="/register" component={Register}/>
-          <Route path="/login" component={Login}/>
-          <Route path="/" component={Home}/>
+          <Route exact path="/history" component={History}/>
+          <Route exact path="/edit" component={Account}/>
+          <Route exact path="/add" component={Add}/>
+          <Route exact path="/today" component={Today}/>
+          <Route exact path="/register" component={Register}/>
+          <Route exact path="/login" component={Login}/>
+          <Route exact path="/" component={Home}/>
         </Switch>
         </Router>
     )
