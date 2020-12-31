@@ -13,7 +13,7 @@ const females11to14 = [{"Energy (kcal)":2200,"Protein":46, "Retinol": 800, "Vita
 "Iron, Fe": 15, "Zinc, Zn": 12, "Selenium, Se": 45, "Total Fat": 70}]
 
 
-const males15to18 = [{"Energy (kcal)":2200,"Protein":44, "Retinol": 800, "Vitamin D": 10, 
+const males15to18 = [{"Energy (kcal)":3000,"Protein":59, "Retinol": 1000, "Vitamin D": 10, 
 "Tocopherol, alpha": 10, "Vitamin K": 65, "Vitamin C": 60, "Thiamin": 1.5, "Riboflavin": 1.8, "Niacin": 20, 
 "Vitamin B-6": 2.0, "Folate, naturally occurring": 200, "Vitamin B-12": 2, "Calcium, Ca": 1200, "Phosphorus, P": 1200, 
 "Magnesium, Mg": 400, 
