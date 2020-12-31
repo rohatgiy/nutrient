@@ -41,6 +41,7 @@ class Dashboard extends Component
         })
         .then(response => response.json())
         .then(data => {
+            console.log(new Date().toISOString())
             const nuts = [];
 
             if (Object.keys(data).length === 0 && data.constructor === Object)
