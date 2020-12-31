@@ -28,7 +28,16 @@ class Dashboard extends Component
         fetch("/api/today/",
         {
             method: "POST",
-            credentials: "include"
+            credentials: "include",
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    date: new Date().toISOString()
+                }
+            )
         })
         .then(response => response.json())
         .then(data => {

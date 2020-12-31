@@ -3,6 +3,7 @@ const router = require('express').Router();
 const fs = require('fs');
 const API_KEY = process.env.API_KEY;
 var Entry = require('../../models/entry');
+const { off } = require('../../models/entry');
 router.use(express.json());
 
 // energy (kcal) is calories
@@ -76,8 +77,7 @@ router.post('/', getNutrients, (req, res, next) => {
     {
         var nutrients = res.locals.food_obj.nutrients;
         var today_entries = req.user.entries;
-
-        var date = new Date();
+        var date = new Date(req.body.date)
 
         var extra = []
 
@@ -98,7 +98,9 @@ router.post('/', getNutrients, (req, res, next) => {
         }
 
 
-        if (today_entries.length > 0 && today_entries[today_entries.length-1].date.getTime() === new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime())
+        if (today_entries.length > 0 && new Date(today_entries[today_entries.length-1].date).getFullYear() === date.getFullYear() 
+        && new Date(today_entries[today_entries.length-1].date).getMonth() === date.getMonth() 
+        && new Date(today_entries[today_entries.length-1].date).getDate() === date.getDate())
         {
             today_entries[today_entries.length-1].food_codes.push(res.locals.food_obj.food_code);
             today_entries[today_entries.length-1].food_names.push(res.locals.food_obj.food_name+ ', '+ res.locals.food_obj.serving_size);
@@ -181,6 +183,7 @@ router.post('/', getNutrients, (req, res, next) => {
                     conversion_factors: [res.locals.food_obj.conversion_factor],
                     food_names: [res.locals.food_obj.food_name+ ', '+ res.locals.food_obj.serving_size],
                     nutrients: nutrients,
+                    date: date.toISOString()
                 }
             );
             req.user.entries.push(entry);

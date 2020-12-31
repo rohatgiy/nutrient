@@ -2,15 +2,19 @@ const Entry = require('../../models/entry');
 const router = require('express').Router();
 // need to make sure entries get added to users array
 
-var date = new Date();
+
 
 router.post('/', (req, res, next) => {
     if (req.user)
     {
+        var date = new Date(req.body.date);
+
         var history = [];
         for (i = req.user.entries.length-1 ; i >= 0; --i)
         {
-            if (req.user.entries[i].date.getTime() !== new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime())
+            if (!(new Date(req.user.entries[i].date).getFullYear() == date.getFullYear() 
+            && new Date(req.user.entries[i].date).getMonth() == date.getMonth() 
+            && new Date(req.user.entries[i].date).getDate() == date.getDate()))
             {
                 history.push(req.user.entries[i]);
             }

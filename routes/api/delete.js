@@ -7,10 +7,11 @@ var setup = function (req, res, next)
     res.locals.delete_index = req.body.delete_index;
 
     var entries = req.user.entries;
-    var date = new Date();
+    var date = new Date(req.body.date);
 
-    if (entries.length > 0 && entries[entries.length-1].date.getTime() === 
-       new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime())
+    if (entries.length > 0 && new Date(entries[entries.length-1].date).getFullYear() === date.getFullYear() 
+    && new Date(entries[entries.length-1].date).getMonth() === date.getMonth() 
+    && new Date(entries[entries.length-1].date).getDate() === date.getDate())
     {
         res.locals.temp_food_code = entries[entries.length-1].food_codes[res.locals.delete_index];
     }
@@ -57,10 +58,11 @@ router.post('/', setup, getBaseNutrients, (req, res, next) => {
    {
        var delete_index = res.locals.delete_index;
        var entries = req.user.entries;
-       var date = new Date();
+       var date = new Date(req.body.date);
    
-       if (entries.length > 0 && entries[entries.length-1].date.getTime() === 
-       new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime())
+       if (entries.length > 0 && new Date(entries[entries.length-1].date).getFullYear() === date.getFullYear() 
+            && new Date(entries[entries.length-1].date).getMonth() === date.getMonth() 
+            && new Date(entries[entries.length-1].date).getDate() === date.getDate())
        {
            var today = entries[entries.length-1];
            var baseNutrients = res.locals.baseNutrients;
