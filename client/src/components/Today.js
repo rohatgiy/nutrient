@@ -35,13 +35,12 @@ class Dashboard extends Component
             },
             body: JSON.stringify(
                 {
-                    date: new Date().toISOString()
+                    date: new Date().toDateString()
                 }
             )
         })
         .then(response => response.json())
         .then(data => {
-            console.log(new Date().toISOString())
             const nuts = [];
 
             if (Object.keys(data).length === 0 && data.constructor === Object)

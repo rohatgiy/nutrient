@@ -24,7 +24,7 @@ class FoodItem extends Component
             body: JSON.stringify(
                 {
                     delete_index: del_index,
-                    date: new Date().toISOString()
+                    date: new Date().toDateString()
                 }
             )
         })

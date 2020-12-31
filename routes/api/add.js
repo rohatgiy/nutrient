@@ -77,7 +77,7 @@ router.post('/', getNutrients, (req, res, next) => {
     {
         var nutrients = res.locals.food_obj.nutrients;
         var today_entries = req.user.entries;
-        var date = new Date(req.body.date)
+        var date = req.body.date
 
         var extra = []
 
@@ -97,29 +97,37 @@ router.post('/', getNutrients, (req, res, next) => {
             }
         }
 
-
-        if (today_entries.length > 0 && new Date(today_entries[today_entries.length-1].date).getFullYear() === date.getFullYear() 
-        && new Date(today_entries[today_entries.length-1].date).getMonth() === date.getMonth() 
-        && new Date(today_entries[today_entries.length-1].date).getDate() === date.getDate())
+        var temp = today_entries.length-1
+        for (i = 0; i < today_entries.length; ++i)
         {
-            today_entries[today_entries.length-1].food_codes.push(res.locals.food_obj.food_code);
-            today_entries[today_entries.length-1].food_names.push(res.locals.food_obj.food_name+ ', '+ res.locals.food_obj.serving_size);
-            today_entries[today_entries.length-1].conversion_factors.push(res.locals.food_obj.conversion_factor);
+            if (today_entries[i].date === date)
+            {
+                temp = i
+                break
+            }
+        }
+
+
+        if (today_entries.length > 0 && today_entries[temp].date === date)
+        {
+            today_entries[temp].food_codes.push(res.locals.food_obj.food_code);
+            today_entries[temp].food_names.push(res.locals.food_obj.food_name+ ', '+ res.locals.food_obj.serving_size);
+            today_entries[temp].conversion_factors.push(res.locals.food_obj.conversion_factor);
 
             for (i = 0; i < nutrients.length; ++i)
             {
                 var found = false
-                for (j = 0; j < req.user.entries[req.user.entries.length-1].nutrients.length; ++j)
+                for (j = 0; j < req.user.entries[temp].nutrients.length; ++j)
                 {
-                    if (nutrients[i].nutrient === req.user.entries[req.user.entries.length-1].nutrients[j].nutrient)
+                    if (nutrients[i].nutrient === req.user.entries[temp].nutrients[j].nutrient)
                     {
                         found = true
                         
-                        req.user.entries[req.user.entries.length-1].nutrients[j].amount += nutrients[i].amount;
+                        req.user.entries[temp].nutrients[j].amount += nutrients[i].amount;
                     }
-                    else if (!found && j === req.user.entries[req.user.entries.length-1].nutrients.length-1)
+                    else if (!found && j === req.user.entries[temp].nutrients.length-1)
                     {
-                        req.user.entries[req.user.entries.length-1].nutrients.push(
+                        req.user.entries[temp].nutrients.push(
                             {
                                 nutrient: nutrients[i].nutrient,
                                 amount: nutrients[i].amount,
@@ -133,15 +141,15 @@ router.post('/', getNutrients, (req, res, next) => {
             for (i = 0; i < extra.length; ++i)
             {
                 var found = false
-                for (k=0; k < req.user.entries[req.user.entries.length-1].nutrients.length; ++k)
+                for (k=0; k < req.user.entries[temp].nutrients.length; ++k)
                 {
-                    if (extra[i].name === req.user.entries[req.user.entries.length-1].nutrients[k].nutrient)
+                    if (extra[i].name === req.user.entries[temp].nutrients[k].nutrient)
                     {
                         found = true
                     }
-                    else if (k === req.user.entries[req.user.entries.length-1].nutrients.length-1 && !found)
+                    else if (k === req.user.entries[temp].nutrients.length-1 && !found)
                     {
-                        req.user.entries[req.user.entries.length-1].nutrients.push(
+                        req.user.entries[temp].nutrients.push(
                             {
                                 nutrient: extra[i].name,
                                 amount: 0,
@@ -183,7 +191,7 @@ router.post('/', getNutrients, (req, res, next) => {
                     conversion_factors: [res.locals.food_obj.conversion_factor],
                     food_names: [res.locals.food_obj.food_name+ ', '+ res.locals.food_obj.serving_size],
                     nutrients: nutrients,
-                    date: date.toISOString()
+                    date: date
                 }
             );
             req.user.entries.push(entry);

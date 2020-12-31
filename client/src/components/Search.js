@@ -36,7 +36,7 @@ export default class Search extends React.Component {
       body: JSON.stringify({
         food_code: this.state.food_code,
         serving_index: this.state.serving_index,
-        date: new Date().toISOString()
+        date: new Date().toDateString()
       })
     })
     .then(response => response.json())

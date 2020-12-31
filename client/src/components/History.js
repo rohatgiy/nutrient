@@ -36,7 +36,7 @@ class History extends Component {
             },
             body: JSON.stringify(
                 {
-                    date: new Date().toISOString()
+                    date: new Date().toDateString()
                 }
             )
         })
