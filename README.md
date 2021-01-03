@@ -33,6 +33,7 @@ User data encryption and authentication are handled using **bcrypt.js** and **Pa
 Nutrient and food information was collected from the [Government of Canada's Candian Nutrient File API](https://open.canada.ca/data/en/dataset/90a31d6a-9131-4f31-a156-cd1f3b2717fe).
 
 View the progress repos: 
+
 [Frontend](https://github.com/rohatgiy/nutrienttracker-frontend)
 
 [Backend](https://github.com/rohatgiy/nutrienttracker-backend)
