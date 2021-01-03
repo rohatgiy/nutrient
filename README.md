@@ -22,7 +22,7 @@ nütrient is a web application created using the **MERN** technology stack. The 
 
 User data encryption and authentication are handled using **bcrypt.js** and **Passport.js**, respectively. **bcrypt.js** was used to encrypt user passwords, and **Passport.js** was used to authenticate user logins. 
 
-Nutrient and food information was collected from the [Government of Canada's Candian Nutrient File API] (https://open.canada.ca/data/en/dataset/90a31d6a-9131-4f31-a156-cd1f3b2717fe).
+Nutrient and food information was collected from the [Government of Canada's Candian Nutrient File API](https://open.canada.ca/data/en/dataset/90a31d6a-9131-4f31-a156-cd1f3b2717fe).
 
 ## Copyright and License:
-Licensed under the [MIT License] (https://github.com/rohatgiy/nutrient/blob/master/LICENSE).
+Licensed under the [MIT License](https://github.com/rohatgiy/nutrient/blob/master/LICENSE).
