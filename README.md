@@ -34,6 +34,7 @@ Nutrient and food information was collected from the [Government of Canada's Can
 
 View the progress repos: 
 [Frontend](https://github.com/rohatgiy/nutrienttracker-frontend)
+
 [Backend](https://github.com/rohatgiy/nutrienttracker-backend)
 
 ## Copyright and License:
