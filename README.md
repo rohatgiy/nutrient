@@ -1,6 +1,6 @@
 # Welcome to nütrient!
 
-nütrient is daily nutritional requirement tracker for your personal use. It can help you optimize your diet and ensure you are eating healthily each and every day. Try it out [here](https://nutritracker.herokuapp.com)! 
+nütrient is a daily nutritional requirement tracker for your personal use. It can help you optimize your diet and ensure you are eating healthily each and every day. Try it out [here](https://nutritracker.herokuapp.com)! 
 
 <img width="1440" alt="Screen Shot 2021-01-02 at 8 34 12 PM" src="https://user-images.githubusercontent.com/55343494/103469977-f7c09480-4d39-11eb-90a5-8f3229c20270.png">
 
